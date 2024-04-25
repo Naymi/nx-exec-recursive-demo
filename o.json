@@ -1,0 +1,319 @@
+{
+  "graph": {
+    "nodes": {
+      "my-node-app-e2e": {
+        "name": "my-node-app-e2e",
+        "type": "e2e",
+        "data": {
+          "root": "apps/my-node-app-e2e",
+          "targets": {
+            "lint": {
+              "cache": true,
+              "options": {
+                "cwd": "apps/my-node-app-e2e",
+                "command": "eslint ."
+              },
+              "inputs": [
+                "default",
+                "^default",
+                "{workspaceRoot}/.eslintrc.json",
+                "{projectRoot}/.eslintrc.json",
+                "{workspaceRoot}/tools/eslint-rules/**/*",
+                {
+                  "externalDependencies": [
+                    "eslint"
+                  ]
+                }
+              ],
+              "executor": "nx:run-commands",
+              "configurations": {}
+            },
+            "test": {
+              "options": {
+                "cwd": "apps/my-node-app-e2e",
+                "command": "jest"
+              },
+              "metadata": {
+                "technologies": [
+                  "jest"
+                ],
+                "description": "Run Jest Tests"
+              },
+              "cache": true,
+              "inputs": [
+                "default",
+                "^production",
+                {
+                  "externalDependencies": [
+                    "jest"
+                  ]
+                }
+              ],
+              "outputs": [
+                "{workspaceRoot}/coverage/my-node-app-e2e"
+              ],
+              "executor": "nx:run-commands",
+              "configurations": {}
+            },
+            "e2e": {
+              "executor": "@nx/jest:jest",
+              "outputs": [
+                "{workspaceRoot}/coverage/{e2eProjectRoot}"
+              ],
+              "options": {
+                "jestConfig": "apps/my-node-app-e2e/jest.config.ts",
+                "passWithNoTests": true
+              },
+              "configurations": {}
+            }
+          },
+          "name": "my-node-app-e2e",
+          "$schema": "../../node_modules/nx/schemas/project-schema.json",
+          "projectType": "application",
+          "implicitDependencies": [
+            "my-node-app"
+          ],
+          "tags": []
+        }
+      },
+      "my-node-app": {
+        "name": "my-node-app",
+        "type": "app",
+        "data": {
+          "root": "apps/my-node-app",
+          "targets": {
+            "lint": {
+              "cache": true,
+              "options": {
+                "cwd": "apps/my-node-app",
+                "command": "eslint ."
+              },
+              "inputs": [
+                "default",
+                "^default",
+                "{workspaceRoot}/.eslintrc.json",
+                "{projectRoot}/.eslintrc.json",
+                "{workspaceRoot}/tools/eslint-rules/**/*",
+                {
+                  "externalDependencies": [
+                    "eslint"
+                  ]
+                }
+              ],
+              "executor": "nx:run-commands",
+              "configurations": {}
+            },
+            "test": {
+              "options": {
+                "cwd": "apps/my-node-app",
+                "command": "jest"
+              },
+              "metadata": {
+                "technologies": [
+                  "jest"
+                ],
+                "description": "Run Jest Tests"
+              },
+              "cache": true,
+              "inputs": [
+                "default",
+                "^production",
+                {
+                  "externalDependencies": [
+                    "jest"
+                  ]
+                }
+              ],
+              "outputs": [
+                "{workspaceRoot}/coverage/apps/my-node-app"
+              ],
+              "executor": "nx:run-commands",
+              "configurations": {}
+            },
+            "build": {
+              "executor": "@nx/esbuild:esbuild",
+              "cache": true,
+              "dependsOn": [
+                "^build"
+              ],
+              "inputs": [
+                "production",
+                "^production"
+              ],
+              "outputs": [
+                "{options.outputPath}"
+              ],
+              "defaultConfiguration": "production",
+              "options": {
+                "platform": "node",
+                "outputPath": "dist/apps/my-node-app",
+                "format": [
+                  "cjs"
+                ],
+                "bundle": false,
+                "main": "apps/my-node-app/src/main.ts",
+                "tsConfig": "apps/my-node-app/tsconfig.app.json",
+                "assets": [
+                  "apps/my-node-app/src/assets"
+                ],
+                "generatePackageJson": true,
+                "esbuildOptions": {
+                  "sourcemap": true,
+                  "outExtension": {
+                    ".js": ".js"
+                  }
+                }
+              },
+              "configurations": {
+                "development": {},
+                "production": {
+                  "esbuildOptions": {
+                    "sourcemap": false,
+                    "outExtension": {
+                      ".js": ".js"
+                    }
+                  }
+                }
+              }
+            },
+            "serve": {
+              "executor": "@nx/js:node",
+              "defaultConfiguration": "development",
+              "options": {
+                "buildTarget": "my-node-app:build"
+              },
+              "configurations": {
+                "development": {
+                  "buildTarget": "my-node-app:build:development"
+                },
+                "production": {
+                  "buildTarget": "my-node-app:build:production"
+                }
+              }
+            }
+          },
+          "name": "my-node-app",
+          "$schema": "../../node_modules/nx/schemas/project-schema.json",
+          "sourceRoot": "apps/my-node-app/src",
+          "projectType": "application",
+          "tags": [],
+          "implicitDependencies": []
+        }
+      },
+      "my-node-lib": {
+        "name": "my-node-lib",
+        "type": "lib",
+        "data": {
+          "root": "my-node-lib",
+          "name": "my-node-lib",
+          "targets": {
+            "nx-release-publish": {
+              "dependsOn": [
+                "^nx-release-publish"
+              ],
+              "executor": "@nx/js:release-publish",
+              "options": {},
+              "configurations": {}
+            },
+            "lint": {
+              "cache": true,
+              "options": {
+                "cwd": "my-node-lib",
+                "command": "eslint ."
+              },
+              "inputs": [
+                "default",
+                "^default",
+                "{workspaceRoot}/.eslintrc.json",
+                "{projectRoot}/.eslintrc.json",
+                "{workspaceRoot}/tools/eslint-rules/**/*",
+                {
+                  "externalDependencies": [
+                    "eslint"
+                  ]
+                }
+              ],
+              "executor": "nx:run-commands",
+              "configurations": {}
+            },
+            "test": {
+              "options": {
+                "cwd": "my-node-lib",
+                "command": "jest"
+              },
+              "metadata": {
+                "technologies": [
+                  "jest"
+                ],
+                "description": "Run Jest Tests"
+              },
+              "cache": true,
+              "inputs": [
+                "default",
+                "^production",
+                {
+                  "externalDependencies": [
+                    "jest"
+                  ]
+                }
+              ],
+              "outputs": [
+                "{workspaceRoot}/coverage/my-node-lib"
+              ],
+              "executor": "nx:run-commands",
+              "configurations": {}
+            },
+            "build": {
+              "executor": "@nx/js:tsc",
+              "cache": true,
+              "dependsOn": [
+                "^build"
+              ],
+              "inputs": [
+                "production",
+                "^production"
+              ],
+              "outputs": [
+                "{options.outputPath}"
+              ],
+              "options": {
+                "outputPath": "dist/my-node-lib",
+                "tsConfig": "my-node-lib/tsconfig.lib.json",
+                "packageJson": "my-node-lib/package.json",
+                "main": "my-node-lib/src/index.ts",
+                "assets": [
+                  "my-node-lib/*.md"
+                ]
+              },
+              "configurations": {}
+            }
+          },
+          "$schema": "../node_modules/nx/schemas/project-schema.json",
+          "sourceRoot": "my-node-lib/src",
+          "projectType": "library",
+          "tags": [],
+          "implicitDependencies": []
+        }
+      }
+    },
+    "dependencies": {
+      "my-node-app-e2e": [
+        {
+          "source": "my-node-app-e2e",
+          "target": "my-node-app",
+          "type": "implicit"
+        }
+      ],
+      "my-node-app": [
+        {
+          "source": "my-node-app",
+          "target": "my-node-lib",
+          "type": "static"
+        }
+      ],
+      "my-node-lib": []
+    }
+  },
+  "affectedProjects": [],
+  "criticalPath": []
+}

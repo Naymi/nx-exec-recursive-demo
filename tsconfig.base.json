@@ -14,7 +14,14 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@nx-nest-workspace/my-nest-lib": ["my-nest-lib/src/index.ts"],
+      "@nx-nest-workspace/my-new-buildable-lib": [
+        "my-new-buildable-lib/src/index.ts"
+      ],
+      "@nx-nest-workspace/my-node-lib": ["my-node-lib/src/index.ts"],
+      "@nx-nest-workspace/my-node-lib-2": ["my-node-lib-2/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }
